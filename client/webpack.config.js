@@ -11,7 +11,7 @@ module.exports = () => {
     mode: 'development',
     entry: {
       main: './src/js/index.js',
-      install: './src/js/install.js'
+      install: './src/js/install.js',
     },
     output: {
       filename: '[name].bundle.js',
@@ -22,10 +22,12 @@ module.exports = () => {
         template: './index.html',
         title: 'JATE Editor'
       }),
+      // injects our custom service  worker
       new InjectManifest({
         swSrc: './src-sw.js',
         swDest: 'src-sw.js',
       }),
+      // creates a manifest.json file
       new WebpackPwaManifest({
         fingerprints: false,
         inject: true,
@@ -46,6 +48,7 @@ module.exports = () => {
     ],
 
     module: {
+      // css loaders
       rules: [
         {
           test: /\.css$/i,
@@ -54,6 +57,7 @@ module.exports = () => {
         {
           test: /\.m?js$/,
           exclude: /node_modules/,
+          // we use babel-loader
           use: {
             loader: 'babel-loader',
             options: {
